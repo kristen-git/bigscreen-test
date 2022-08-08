@@ -18,6 +18,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.HandshakeInterceptor;
@@ -37,13 +38,15 @@ public class MyInterceptor implements HandshakeInterceptor {
     @Override
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
         System.out.println("握手开始");
-        // 获得请求参数
-
+        // 通过URL获得请求参数
+//        ServletServerHttpRequest serverHttpRequest = (ServletServerHttpRequest) request;
+//
+//        Object token = serverHttpRequest.getServletRequest().getParameter("token");
         //握手时验证token是否有效
-//        String token = request.getHeaders().get("token").get(0);
+        String token = request.getHeaders().get("token").get(0);
 
         //通过协议获得token
-        Object token = request.getHeaders().get("sec-websocket-protocol").get(0);
+//        Object token = request.getHeaders().get("sec-websocket-protocol").get(0);
         String uid = redisTemplate.opsForValue().get(token).toString();
         if (!uid.isEmpty()) {
             // 放入属性域
