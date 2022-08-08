@@ -30,7 +30,8 @@ public class HttpAuthHandler extends TextWebSocketHandler {
      */
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        Object token = session.getAttributes().get("token");
+        String token = session.getHandshakeHeaders().get("sec-websocket-protocol").get(0);
+//        Object token = session.getAttributes().get("token");
         if (token != null) {
             // 用户连接成功，放入在线用户缓存
             WsSessionManager.add(token.toString(), session);
@@ -50,7 +51,8 @@ public class HttpAuthHandler extends TextWebSocketHandler {
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         // 获得客户端传来的消息
         String payload = message.getPayload();
-        Object token = session.getAttributes().get("token");
+        String token = session.getHandshakeHeaders().get("sec-websocket-protocol").get(0);
+//        Object token = session.getAttributes().get("token");
         System.out.println("server 接收到 " + token + " 发送的 " + payload);
         session.sendMessage(new TextMessage("server 发送给 " + token + " 消息 " + payload + " " + LocalDateTime.now().toString()));
     }
@@ -64,7 +66,8 @@ public class HttpAuthHandler extends TextWebSocketHandler {
      */
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-        Object token = session.getAttributes().get("token");
+        String token = session.getHandshakeHeaders().get("sec-websocket-protocol").get(0);
+//        Object token = session.getAttributes().get("token");
         if (token != null) {
             // 用户退出，移除缓存
             WsSessionManager.remove(token.toString());

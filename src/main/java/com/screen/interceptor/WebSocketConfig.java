@@ -36,7 +36,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry
                 .addHandler(httpAuthHandler, "myWS")
-                .addInterceptors(myInterceptor)
-                .setAllowedOrigins("*");
+                .addInterceptors(myInterceptor);
+//                .setAllowedOrigins("*");
     }
 }

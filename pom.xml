@@ -9,7 +9,7 @@
 		<version>2.1.8.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.psbc</groupId>
+	<groupId>com</groupId>
 	<artifactId>screen</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>screen</name>

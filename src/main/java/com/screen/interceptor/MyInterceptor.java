@@ -38,16 +38,17 @@ public class MyInterceptor implements HandshakeInterceptor {
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
         System.out.println("握手开始");
         // 获得请求参数
-//        HashMap<String, String> paramMap = HttpUtil.decodeParamMap(request.getURI().getQuery(), "utf-8");
-        //        String uid = paramMap.get("token");
-        //        if (StrUtil.isNotBlank(uid)) {
 
         //握手时验证token是否有效
-        String token = request.getHeaders().get("token").get(0);
+//        String token = request.getHeaders().get("token").get(0);
+
+        //通过协议获得token
+        Object token = request.getHeaders().get("sec-websocket-protocol").get(0);
         String uid = redisTemplate.opsForValue().get(token).toString();
         if (!uid.isEmpty()) {
             // 放入属性域
             attributes.put("token",token);
+
             System.out.println("用户" + uid + token+ " 握手成功！");
             return true;
         }else{

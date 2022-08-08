@@ -75,7 +75,9 @@ public class TimeTask {
             if(key!=null){
                 try {
                     System.out.println("server发送消息");
-                    webSocketSession.sendMessage(new TextMessage("server 发送给 " + redisTemplate.opsForValue().get(key) + " 消息 " + " " + LocalDateTime.now().toString()));
+                    TextMessage textMessage = new TextMessage("server 发送给 " +
+                            redisTemplate.opsForValue().get(key) + " 消息 " + " " + LocalDateTime.now().toString());
+                    webSocketSession.sendMessage(textMessage);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -84,19 +86,7 @@ public class TimeTask {
                 WsSessionManager.remove(key.toString());
             }
         }
-//        Map<String, Object> attributes = tokenSession.getAttributes();
 
-
-
-
-//        webSocketSet.forEach(c -> {
-//            try {
-//                EchartVo vo = etcServices.listETC();
-//                c.sendMessage(JSON.toJSONString(vo));
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        });
 
 
         System.err.println("定时任务完成.......");
