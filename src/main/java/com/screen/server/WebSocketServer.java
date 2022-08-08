@@ -33,6 +33,7 @@ public class WebSocketServer {
 	private Session session;
 	//map放 token和 websocketserver对象，来区分用户和token
 	private static Map<String, WebSocketServer> map=new ConcurrentHashMap<>();
+
 	/**
 	 * 连接建立成功调用的方法
 	 */

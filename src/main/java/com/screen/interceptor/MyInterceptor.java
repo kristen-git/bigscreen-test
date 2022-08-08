@@ -6,12 +6,6 @@ package com.screen.interceptor;
  * @Description: TODO
  */
 
-/*
- * *
- *  * blog.coder4j.cn
- *  * Copyright (C) 2016-2019 All Rights Reserved.
- *
- */
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -24,6 +18,7 @@ import org.springframework.web.socket.server.HandshakeInterceptor;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Component
 public class MyInterceptor implements HandshakeInterceptor {
@@ -37,34 +32,17 @@ public class MyInterceptor implements HandshakeInterceptor {
     @Override
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
         System.out.println("握手开始");
-        // 获得请求参数
-
-        //握手时验证token是否有效
-//        String token = request.getHeaders().get("token").get(0);
-
         //通过协议获得token
         Object token = request.getHeaders().get("sec-websocket-protocol").get(0);
-        String uid = redisTemplate.opsForValue().get(token).toString();
-        if (!uid.isEmpty()) {
-            // 放入属性域
-            attributes.put("token",token);
-
-            System.out.println("用户" + uid + token+ " 握手成功！");
+        if(!Objects.isNull(token)) {
+            System.out.println("用户" + token+ " 握手成功！");
             return true;
-        }else{
-            System.out.println("用户登录已失效");
         }
-
         return false;
     }
 
     /**
      * 握手后
-     *
-     * @param request
-     * @param response
-     * @param wsHandler
-     * @param exception
      */
     @Override
     public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Exception exception) {

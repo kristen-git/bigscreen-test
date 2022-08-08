@@ -43,9 +43,7 @@ public class TimeTask {
 	@Autowired
     private RedisTemplate redisTemplate;
 
-	
     static Log log = LogFactory.getLog(TimeTask.class);
-//    SimpleDateFormat sdf = new SimpleDateFormat("mm:ss");
 
     @Bean
     @Scheduled(cron = "0/3 * * * * ?") // 每分钟执行一次

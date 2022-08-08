@@ -5,8 +5,6 @@ package com.screen.interceptor;
  * @CreateTime: 2022-08-07  23:22
  * @Description: TODO
  */
-
-
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -15,18 +13,12 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.time.LocalDateTime;
 
-/**
- * @author buhao
- * @version MyWSHandler.java, v 0.1 2019-10-17 17:10 buhao
- */
+
 @Component
 public class HttpAuthHandler extends TextWebSocketHandler {
 
     /**
      * socket 建立成功事件
-     *
-     * @param session
-     * @throws Exception
      */
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -42,10 +34,6 @@ public class HttpAuthHandler extends TextWebSocketHandler {
 
     /**
      * 接收消息事件
-     *
-     * @param session
-     * @param message
-     * @throws Exception
      */
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
@@ -59,16 +47,12 @@ public class HttpAuthHandler extends TextWebSocketHandler {
 
     /**
      * socket 断开连接时
-     *
-     * @param session
-     * @param status
-     * @throws Exception
      */
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         String token = session.getHandshakeHeaders().get("sec-websocket-protocol").get(0);
 //        Object token = session.getAttributes().get("token");
-        if (token != null) {
+        if (token == null) {
             // 用户退出，移除缓存
             WsSessionManager.remove(token.toString());
         }
