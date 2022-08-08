@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.screen.mapper.CreditCardMapper">
+	<resultMap type="com.screen.entity.CreditCardEo" id="eos">
+		<result property="provinceId" column="province_id" />
+		<result property="bracnhName" column="name" />
+		<result property="month" column="month" />
+		<result property="cardCapacity" column="card_capacity" />
+		<result property="activeCapacity" column="active_capacity" />
+	</resultMap>
+	
+	<select id="listCreditCard" resultMap="eos" parameterType="int">
+		select 
+			e.province_id, b.name, e.month, e.card_capacity, e.active_capacity
+		from 
+			credit_card_monthly_volume e, bank b
+		where 
+			e.province_id = #{provinceId} and e.branch_id = b.id
+		order by e.month asc;
+	</select>
+	
+	<select id="totalCreditCardCapacity" resultType="int">
+		select 
+			sum(e.card_capacity)
+		from 
+			credit_card_monthly_volume e
+	</select>
+	
+	<select id="totalCreditCardActive" resultType="int">
+		select 
+			sum(e.active_capacity)
+		from 
+			credit_card_monthly_volume e
+	</select>
+
+</mapper>

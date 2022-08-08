@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.screen.mapper.ETCMapper">
+	<resultMap type="com.screen.entity.ETCEo" id="etceos">
+		<result property="provinceId" column="province_id" />
+		<result property="bracnhName" column="name" />
+		<result property="month" column="month" />
+		<result property="volume" column="volume" />
+	</resultMap>
+	
+	<select id="listETC" resultMap="etceos" parameterType="int">
+		select 
+			e.province_id,b.name, e.month, e.volume 
+		from 
+			etc_monthly_volume e, bank b
+		where 
+			e.province_id = #{provinceId} and e.branch_id = b.id
+		order by e.month asc;
+	</select>
+	
+	<select id="totalETC" resultType="int">
+		select 
+			sum(e.volume)
+		from 
+			etc_monthly_volume e
+	</select>
+	
+	
+	
+	<select id="top10ETC" resultMap="etceos" parameterType="string">
+		select 
+			e.province_id,b.name, e.month, e.volume 
+		from 
+			etc_monthly_volume e, bank b
+		where 
+			e.month = #{month} and e.branch_id = b.id 
+		order by e.volume  desc limit 10;
+	</select>
+	
+	<select id="rankETC" resultType="java.lang.Integer">
+		select 
+			e.province_id 
+		from 
+			etc_monthly_volume e 
+		group by 
+			e.province_id  
+		order by sum(e.volume) desc;
+	</select>
+
+</mapper>
