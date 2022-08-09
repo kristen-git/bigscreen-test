@@ -24,7 +24,7 @@ public class HttpAuthHandler extends TextWebSocketHandler {
     /**
      * 日志
      */
-    private static final Logger log = LoggerFactory.getLogger(MyInterceptor.class);
+    private static final Logger log = LoggerFactory.getLogger(HttpAuthHandler.class);
 
     /**
      * socket 建立成功事件
